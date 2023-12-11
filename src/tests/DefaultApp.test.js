@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import setupTests from './setupTests';
+import '@testing-library/jest-dom';
 import App from '../pages/DefaultApp';
 
 test('renders learn react link', () => {
