@@ -26,17 +26,17 @@ const Header = () => {
   }, [prevScrollPos]);
 
   return (
-    <Navbar bg="light" expand="lg" id="header" className="fixed-top">
-      <Navbar.Brand href="#home">Recipe App</Navbar.Brand>
+    <Navbar bg="light" expand="lg" id="header" className="fixed-top px-3">
+      <Navbar.Brand href="#home">Cook the Week</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <Form inline>
+      <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+        <Nav className="mx-md-4 py-3">
+          <Form inline className="d-flex flex-raw">
             <FormControl type="text" placeholder="Search" className="mr-sm-2" />
             <Button variant="outline-success">Search</Button>
           </Form>
         </Nav>
-        <Nav className="ml-auto">
+        <Nav>
           <Button variant="primary">Login</Button>
         </Nav>
       </Navbar.Collapse>
