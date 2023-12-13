@@ -4,7 +4,7 @@ import {
 } from 'react-bootstrap';
 import '../styles/Header.css';
 
-function Header() {
+const Header = () => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
 
   useEffect(() => {
@@ -42,6 +42,6 @@ function Header() {
       </Navbar.Collapse>
     </Navbar>
   );
-}
+};
 
 export default Header;
