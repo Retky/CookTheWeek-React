@@ -21,7 +21,7 @@ const mockRecipes = [
     cooking_time: 0.5,
     public: true,
     tips: '',
-    image_url: '',
+    image_url: 'https://i.pinimg.com/originals/a7/7f/36/a77f3610d99f1331d4d35e7a05ec17f8.jpg',
   },
   {
     id: 3,
