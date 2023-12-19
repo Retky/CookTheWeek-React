@@ -1,17 +1,12 @@
-import {
-  createStore,
-  combineReducers,
-  applyMiddleware,
-} from 'redux';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import userReducer from './reducers/userReducer';
 
 const reducer = combineReducers({
-  // Mock reducer
-  counter: () => 1,
+  user: userReducer,
 });
 
-const store = createStore(
+const store = configureStore({
   reducer,
-  applyMiddleware(),
-);
+});
 
 export default store;
