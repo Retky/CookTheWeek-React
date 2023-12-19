@@ -16,6 +16,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run ESLint check
-        run: npx eslint .
+        run: npx eslint "**/*.{js,jsx}"
       - name: Run Stylelint check
         run: npx stylelint "**/*.{css,scss}"
