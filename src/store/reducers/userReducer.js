@@ -1,4 +1,5 @@
 const mockRecipes = [{
+  id: 1,
   name: 'Recipe',
   description: '',
   portions: 3,
@@ -18,7 +19,8 @@ export const fetchRecipes = () => ({
   recipes: mockRecipes,
 });
 
-const reducer = (action, state = initialState) => {
+// Redux require the params as: (state, action)
+const reducer = (state = initialState, action) => { // eslint-disable-line default-param-last
   switch (action.type) {
     case FETCH_RECIPES:
       return action.recipes;
