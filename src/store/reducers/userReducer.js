@@ -1,13 +1,13 @@
 const mockRecipes = [{
   id: 1,
-  name: 'Recipe',
-  description: '',
+  name: 'Test Recipe',
+  description: 'A great description for a great recipe',
   portions: 3,
   difficulty: 2,
   preparation_time: 0.75,
   cooking_time: 1,
   public: false,
-  tips: '',
+  tips: 'none o.<',
   image_url: '',
 }];
 
