@@ -4,14 +4,15 @@ import {
   Route,
 } from 'react-router-dom';
 
+import './styles/App.css';
 import Header from './components/Header';
-import DefaultApp from './pages/DefaultApp';
+import HomePage from './pages/HomePage';
 
 const App = () => (
   <Router>
     <Header />
     <Switch>
-      <Route path="/" element={<DefaultApp />} />
+      <Route path="/" element={<HomePage />} />
     </Switch>
   </Router>
 );
