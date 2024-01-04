@@ -36,8 +36,49 @@ const mockRecipes = [
     image_url: '',
   },
 ];
+const mockFullRecipe = {
+  id: 1,
+  name: 'Test Recipe',
+  description: 'A great description for a great recipe',
+  portions: 3,
+  difficulty: 2,
+  preparation_time: 0.75,
+  cooking_time: 1,
+  public: false,
+  tips: 'none o.<',
+  image_url: '',
+  ingredients: [
+    {
+      id: 1,
+      name: 'Ingredient 1',
+      quantity: 1,
+      unit: 'kg',
+    },
+    {
+      id: 2,
+      name: 'Ingredient 2',
+      quantity: 2,
+      unit: 'kg',
+    },
+  ],
+  steps: [
+    {
+      id: 1,
+      description: 'Step 1',
+    },
+    {
+      id: 2,
+      description: 'Step 2',
+    },
+    {
+      id: 3,
+      description: 'Step 3',
+    },
+  ],
+};
 
 const FETCH_RECIPES = 'FETCH_RECIPES';
+const FETCH_FULL_RECIPE = 'FETCH_FULL_RECIPE';
 const initialState = [];
 
 export const fetchRecipes = () => ({
@@ -45,11 +86,18 @@ export const fetchRecipes = () => ({
   recipes: mockRecipes,
 });
 
+export const fetchFullRecipe = () => ({
+  type: FETCH_FULL_RECIPE,
+  recipe: mockFullRecipe,
+});
+
 // Redux require the params as: (state, action)
 const reducer = (state = initialState, action) => { // eslint-disable-line default-param-last
   switch (action.type) {
     case FETCH_RECIPES:
       return action.recipes;
+    case FETCH_FULL_RECIPE:
+      return action.recipe;
     default:
       return state;
   }
