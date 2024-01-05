@@ -1,8 +1,18 @@
 import PropTypes from 'prop-types';
 import loadImage from '../images/loadImage.webp';
 
-const RecipeCard = ({ recipe }) => (
-  <div key={recipe.id} className="col-md-6 mb-4">
+const RecipeCard = ({ recipe, handleRecipeClick }) => (
+  <div
+    key={recipe.id}
+    className="col-md-6 mb-4"
+    aria-hidden="true"
+    onClick={handleRecipeClick}
+    onKeyDown={(e) => {
+      if (e.key === 'Enter') {
+        handleRecipeClick();
+      }
+    }}
+  >
     <div className="card">
       <div className="image-container">
         <img
@@ -26,6 +36,7 @@ RecipeCard.propTypes = {
     description: PropTypes.string,
     image_url: PropTypes.string,
   }).isRequired,
+  handleRecipeClick: PropTypes.func.isRequired,
 };
 
 export default RecipeCard;

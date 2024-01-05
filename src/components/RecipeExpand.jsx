@@ -1,8 +1,17 @@
 import PropTypes from 'prop-types';
 import loadImage from '../images/loadImage.webp';
 
-const RecipeExpand = ({ recipe }) => (
-  <div className="container">
+const RecipeExpand = ({ recipe, handleRecipeClose }) => (
+  <div
+    className="container"
+    onClick={handleRecipeClose}
+    aria-hidden="true"
+    onKeyDown={(e) => {
+      if (e.key === 'Enter') {
+        handleRecipeClose();
+      }
+    }}
+  >
     <div className="row">
       <div className="col-md-12">
         <div className="card mb-4">
@@ -97,6 +106,7 @@ RecipeExpand.propTypes = {
       }),
     ).isRequired,
   }).isRequired,
+  handleRecipeClose: PropTypes.func.isRequired,
 };
 
 export default RecipeExpand;
