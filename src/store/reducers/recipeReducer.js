@@ -43,10 +43,13 @@ const initialState = {};
 
 const FETCH_RECIPE = 'FETCH_RECIPE';
 
-export const fetchRecipe = (recipeId) => ({
-  type: FETCH_RECIPE,
-  recipe: recipeId === 1 ? mockRecipe : null,
-});
+export const fetchRecipe = (recipeId) => {
+  const recipe = recipeId === '1' ? mockRecipe : {};
+  return {
+    type: FETCH_RECIPE,
+    recipe,
+  };
+};
 
 const reducer = (state = initialState, action) => { // eslint-disable-line default-param-last
   switch (action.type) {
