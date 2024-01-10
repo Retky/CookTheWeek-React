@@ -9,7 +9,7 @@ const mockRecipe = {
   public: false,
   tips: 'none o.<',
   image_url: '',
-  ingredients: [
+  recipe_ingredients_attributes: [
     {
       id: 1,
       name: 'Ingredient 1',
@@ -23,7 +23,7 @@ const mockRecipe = {
       unit: 'kg',
     },
   ],
-  steps: [
+  recipe_steps_attributes: [
     {
       id: 1,
       description: 'Step 1',
