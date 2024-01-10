@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { fetchRecipe } from '../store/reducers/recipeReducer';
+import { fetchRecipe, updateRecipe } from '../store/reducers/recipeReducer';
 import loadImage from '../images/loadImage.webp';
 
 const DetailRecipe = () => {
@@ -18,13 +18,25 @@ const DetailRecipe = () => {
     setEditMode(!editMode);
   };
 
-  const handleSave = () => {
-    console.log('Save');
+  const handleSave = (editRecipe) => {
+    if (editRecipe !== recipe) {
+      dispatch(updateRecipe(editRecipe));
+    }
     setEditMode(false);
   };
 
   return (
     <div className="header-space m-4 mb-5">
+      <div className="menu">
+        <button onClick={handleEditMode} type="button" className={`btn ${editMode ? 'btn-danger' : 'btn-primary'}`}>
+          {editMode ? 'Cancel' : 'Edit'}
+        </button>
+        {editMode && (
+          <button onClick={handleSave} type="button" className="btn btn-success">
+            Save
+          </button>
+        )}
+      </div>
       <div style={{ maxWidth: '720px', maxHeight: '480px' }} className="overflow-hidden">
         <img
           src={recipe.image_url ? recipe.image_url : loadImage}
@@ -34,14 +46,6 @@ const DetailRecipe = () => {
       </div>
       <div className="card-body">
         <h1 className="my-4">{recipe.name}</h1>
-        <button onClick={handleEditMode} type="button" className={`btn ${editMode ? 'btn-danger' : 'btn-primary'}`}>
-          {editMode ? 'Cancel' : 'Edit'}
-        </button>
-        {editMode && (
-          <button onClick={handleSave} type="button" className="btn btn-success">
-            Save
-          </button>
-        )}
         <p className="card-text">{recipe.description}</p>
         <p>
           Portions:
