@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import _isEqual from 'lodash/isEqual';
 import { fetchRecipe, updateRecipe } from '../store/reducers/recipeReducer';
 import loadImage from '../images/loadImage.webp';
 
@@ -19,10 +20,17 @@ const DetailRecipe = () => {
   };
 
   const handleSave = (editRecipe) => {
-    if (editRecipe !== recipe) {
+    if (!_isEqual(editRecipe, recipe)) {
       dispatch(updateRecipe(editRecipe));
     }
     setEditMode(false);
+  };
+
+  const recipeObject = () => {
+    // TODO: create recipe object from DOM data
+    const newRecipe = {};
+
+    return newRecipe;
   };
 
   return (
@@ -32,7 +40,7 @@ const DetailRecipe = () => {
           {editMode ? 'Cancel' : 'Edit'}
         </button>
         {editMode && (
-          <button onClick={handleSave} type="button" className="btn btn-success">
+          <button onClick={() => handleSave(recipeObject())} type="button" className="btn btn-success">
             Save
           </button>
         )}
@@ -88,7 +96,7 @@ const DetailRecipe = () => {
         <ol>
           {recipe.recipe_steps_attributes
             && recipe.recipe_steps_attributes.map((step) => (
-              <li key={step.id}>{step.instructions}</li>
+              <li key={step.id}>{step.description}</li>
             ))}
         </ol>
       </div>
