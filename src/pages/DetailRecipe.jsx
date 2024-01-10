@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchRecipe } from '../store/reducers/recipeReducer';
@@ -7,11 +7,16 @@ import loadImage from '../images/loadImage.webp';
 const DetailRecipe = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const [editMode, setEditMode] = useState(false);
   const recipe = useSelector((store) => store.recipe);
 
   useEffect(() => {
     dispatch(fetchRecipe(id));
   }, [dispatch, id]);
+
+  const handleEditMode = () => {
+    setEditMode(!editMode);
+  };
 
   return (
     <div className="header-space m-4 mb-5">
@@ -24,6 +29,9 @@ const DetailRecipe = () => {
       </div>
       <div className="card-body">
         <h1 className="my-4">{recipe.name}</h1>
+        <button onClick={handleEditMode} type="button" className="btn btn-primary">
+          {editMode ? 'Cancel' : 'Edit'}
+        </button>
         <p className="card-text">{recipe.description}</p>
         <p>
           Portions:
