@@ -42,6 +42,7 @@ const mockRecipe = {
 const initialState = {};
 
 const FETCH_RECIPE = 'FETCH_RECIPE';
+const UPDATE_RECIPE = 'UPDATE_RECIPE';
 
 export const fetchRecipe = (recipeId) => {
   const recipe = recipeId === '1' ? mockRecipe : {};
@@ -51,9 +52,19 @@ export const fetchRecipe = (recipeId) => {
   };
 };
 
+export const updateRecipe = (recipe) => {
+  console.log('saving recipe', recipe);
+  return {
+    type: UPDATE_RECIPE,
+    recipe,
+  };
+};
+
 const reducer = (state = initialState, action) => { // eslint-disable-line default-param-last
   switch (action.type) {
     case FETCH_RECIPE:
+      return action.recipe;
+    case UPDATE_RECIPE:
       return action.recipe;
     default:
       return state;
