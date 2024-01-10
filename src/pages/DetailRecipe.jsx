@@ -18,6 +18,11 @@ const DetailRecipe = () => {
     setEditMode(!editMode);
   };
 
+  const handleSave = () => {
+    console.log('Save');
+    setEditMode(false);
+  };
+
   return (
     <div className="header-space m-4 mb-5">
       <div style={{ maxWidth: '720px', maxHeight: '480px' }} className="overflow-hidden">
@@ -29,9 +34,14 @@ const DetailRecipe = () => {
       </div>
       <div className="card-body">
         <h1 className="my-4">{recipe.name}</h1>
-        <button onClick={handleEditMode} type="button" className="btn btn-primary">
+        <button onClick={handleEditMode} type="button" className={`btn ${editMode ? 'btn-danger' : 'btn-primary'}`}>
           {editMode ? 'Cancel' : 'Edit'}
         </button>
+        {editMode && (
+          <button onClick={handleSave} type="button" className="btn btn-success">
+            Save
+          </button>
+        )}
         <p className="card-text">{recipe.description}</p>
         <p>
           Portions:
