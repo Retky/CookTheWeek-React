@@ -9,6 +9,7 @@ const DetailRecipe = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
+  const [editedRecipe, setEditedRecipe] = useState({});
   const recipe = useSelector((store) => store.recipe);
 
   useEffect(() => {
@@ -53,27 +54,99 @@ const DetailRecipe = () => {
         />
       </div>
       <div className="card-body">
-        <h1 className="my-4">{recipe.name}</h1>
-        <p className="card-text">{recipe.description}</p>
+        {editMode ? (
+          <h1 className="my-4">
+            <input
+              className="fw-medium border"
+              type="text"
+              value={editedRecipe.name || recipe.name}
+              onChange={(e) => setEditedRecipe({ ...editedRecipe, name: e.target.value })}
+            />
+          </h1>
+        ) : (
+          <h1 className="my-4">{recipe.name}</h1>
+        )}
+        {editMode ? (
+          <textarea
+            className="form-control"
+            value={editedRecipe.description || recipe.description}
+            onChange={(e) => setEditedRecipe({ ...editedRecipe, description: e.target.value })}
+          />
+        ) : (
+          <p className="card-text">{recipe.description}</p>
+        )}
+        {editMode ? (
+          <div>
+            <label htmlFor="portions">
+              Portions:
+              <input
+                id="portions"
+                type="number"
+                value={editedRecipe.portions || recipe.portions}
+                min={1}
+                onChange={(e) => setEditedRecipe({ ...editedRecipe, portions: e.target.value })}
+              />
+            </label>
+          </div>
+        ) : (
+          <p>
+            Portions:
+            {recipe.portions}
+          </p>
+        )}
+        {editMode ? (
+          <div>
+            <label htmlFor="difficulty">
+              Difficulty:
+              <input
+                id="difficulty"
+                type="number"
+                value={editedRecipe.difficulty || recipe.difficulty}
+                min={1}
+                max={5}
+                onChange={(e) => setEditedRecipe({ ...editedRecipe, difficulty: e.target.value })}
+              />
+            </label>
+          </div>
+        ) : (
+          <p>
+            Difficulty:
+            {recipe.difficulty}
+          </p>
+        )}
         <p>
-          Portions:
-          {recipe.portions}
-        </p>
-        <p>
-          Difficulty:
-          {recipe.difficulty}
-        </p>
-        <p>
-          Preparation Time:
-          {recipe.preparation_time}
-          {' '}
-          hours
-        </p>
-        <p>
-          Cooking Time:
-          {recipe.cooking_time}
-          {' '}
-          hours
+          {editMode ? (
+            <div>
+              <label htmlFor="hours">
+                Preparation Time (hours):
+                <input
+                  id="hours"
+                  type="number"
+                  value={editedRecipe.hours || Math.floor(recipe.preparation_time)}
+                  min={1}
+                  onChange={(e) => setEditedRecipe({ ...editedRecipe, hours: e.target.value })}
+                />
+              </label>
+              <label htmlFor="minutes">
+                Preparation Time (minutes):
+                <input
+                  id="minutes"
+                  type="number"
+                  value={editedRecipe.minutes || Math.floor((recipe.preparation_time % 1) * 60)}
+                  min={0}
+                  max={59}
+                  onChange={(e) => setEditedRecipe({ ...editedRecipe, minutes: e.target.value })}
+                />
+              </label>
+            </div>
+          ) : (
+            <p>
+              Preparation Time:
+              {recipe.preparation_time && (
+                `${Math.floor(recipe.preparation_time)}h ${Math.floor((recipe.preparation_time % 1) * 60)}m`
+              )}
+            </p>
+          )}
         </p>
       </div>
       <div className="card-body">
@@ -96,7 +169,9 @@ const DetailRecipe = () => {
         <ol>
           {recipe.recipe_steps_attributes
             && recipe.recipe_steps_attributes.map((step) => (
-              <li key={step.id}>{step.description}</li>
+              <li key={step.id}>
+                {step.description}
+              </li>
             ))}
         </ol>
       </div>
