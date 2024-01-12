@@ -70,6 +70,29 @@ const DetailRecipe = () => {
     });
   };
 
+  const handleStepChange = (index, key, value) => {
+    setEditedRecipe((prevRecipe) => {
+      const newSteps = [...prevRecipe.recipe_steps_attributes];
+      newSteps[index] = { ...newSteps[index], [key]: value };
+      return { ...prevRecipe, recipe_steps_attributes: newSteps };
+    });
+  };
+
+  const handleAddStep = () => {
+    setEditedRecipe((prevRecipe) => ({
+      ...prevRecipe,
+      recipe_steps_attributes: [...prevRecipe.recipe_steps_attributes, { description: '' }],
+    }));
+  };
+
+  const handleDeleteStep = (index) => {
+    setEditedRecipe((prevRecipe) => {
+      const newSteps = [...prevRecipe.recipe_steps_attributes];
+      newSteps.splice(index, 1);
+      return { ...prevRecipe, recipe_steps_attributes: newSteps };
+    });
+  };
+
   return (
     <div className="header-space m-4 mb-5">
       <div className="menu sticky-top">
@@ -243,18 +266,50 @@ const DetailRecipe = () => {
       </div>
       <div className="card-body">
         <h5>Steps:</h5>
-        <ol>
-          {recipe.recipe_steps_attributes
-            && recipe.recipe_steps_attributes.map((step) => (
-              <li key={step.id}>
-                {step.description}
-              </li>
+        {editMode ? (
+          <div>
+            {editedRecipe.recipe_steps_attributes.map((step, index) => (
+              <div key={step.id || index}>
+                <label htmlFor={`stepDescription${index}`}>
+                  {index + 1}
+                  <input
+                    id={`stepDescription${index}`}
+                    type="text"
+                    value={step.description}
+                    onChange={(e) => handleStepChange(index, 'description', e.target.value)}
+                  />
+                </label>
+                <button type="button" onClick={() => handleDeleteStep(index)}>
+                  Delete
+                </button>
+              </div>
             ))}
-        </ol>
+            <button type="button" onClick={handleAddStep}>
+              Add Step
+            </button>
+          </div>
+        ) : (
+          <ol>
+            {recipe.recipe_steps_attributes
+              && recipe.recipe_steps_attributes.map((step) => (
+                <li key={step.id}>
+                  {step.description}
+                </li>
+              ))}
+          </ol>
+        )}
       </div>
       <div className="card-body">
         <h5>Tips:</h5>
-        {recipe.tips}
+        {editMode ? (
+          <textarea
+            className="form-control"
+            value={editedRecipe.tips || recipe.tips}
+            onChange={(e) => setEditedRecipe({ ...editedRecipe, tips: e.target.value })}
+          />
+        ) : (
+          <p className="card-text">{recipe.tips}</p>
+        )}
       </div>
     </div>
   );
