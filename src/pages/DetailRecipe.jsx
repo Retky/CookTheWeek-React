@@ -9,24 +9,12 @@ const DetailRecipe = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
-  const [editedRecipe, setEditedRecipe] = useState({
-    id: 0,
-    name: '',
-    description: '',
-    portions: 0,
-    difficulty: 1,
-    preparation_time: 0,
-    cooking_time: 0,
-    public: false,
-    tips: '',
-    image_url: '',
-    recipe_ingredients_attributes: [],
-    recipe_steps_attributes: [],
-  });
+  const [editedRecipe, setEditedRecipe] = useState({});
   const recipe = useSelector((store) => store.recipe);
 
   const updateEditedRecipe = () => {
     setEditedRecipe({
+      id: recipe.id,
       name: recipe.name,
       description: recipe.description,
       portions: recipe.portions,
@@ -36,8 +24,8 @@ const DetailRecipe = () => {
       public: recipe.public,
       tips: recipe.tips,
       image_url: recipe.image_url,
-      recipe_ingredients_attributes: recipe.recipe_ingredients_attributes,
-      recipe_steps_attributes: recipe.recipe_steps_attributes,
+      recipe_ingredients_attributes: [...recipe.recipe_ingredients_attributes],
+      recipe_steps_attributes: [...recipe.recipe_steps_attributes],
     });
   };
 
@@ -46,7 +34,7 @@ const DetailRecipe = () => {
   }, [dispatch, id]);
 
   const handleEditMode = () => {
-    if (!editMode) {
+    if (!editMode && editedRecipe.id !== recipe.id) {
       updateEditedRecipe();
     }
     setEditMode(!editMode);
@@ -59,11 +47,19 @@ const DetailRecipe = () => {
     setEditMode(false);
   };
 
-  const recipeObject = () => {
-    // TODO: create recipe object from DOM data
-    const newRecipe = {};
+  const handleIngredientChange = (index, key, value) => {
+    setEditedRecipe((prevRecipe) => {
+      const newIngredients = [...prevRecipe.recipe_ingredients_attributes];
+      newIngredients[index] = { ...newIngredients[index], [key]: value };
+      return { ...prevRecipe, recipe_ingredients_attributes: newIngredients };
+    });
+  };
 
-    return newRecipe;
+  const handleAddIngredient = () => {
+    setEditedRecipe((prevRecipe) => ({
+      ...prevRecipe,
+      recipe_ingredients_attributes: [...prevRecipe.recipe_ingredients_attributes, { name: '', quantity: '', unit: '' }],
+    }));
   };
 
   return (
@@ -73,7 +69,7 @@ const DetailRecipe = () => {
           {editMode ? 'Cancel' : 'Edit'}
         </button>
         {editMode && (
-          <button onClick={() => handleSave(recipeObject())} type="button" className="btn btn-success">
+          <button onClick={() => handleSave(editedRecipe)} type="button" className="btn btn-success">
             Save
           </button>
         )}
@@ -183,18 +179,56 @@ const DetailRecipe = () => {
       </div>
       <div className="card-body">
         <h5>Ingredients:</h5>
-        <ul>
-          {recipe.recipe_ingredients_attributes
-            && recipe.recipe_ingredients_attributes.map((ingredient) => (
-              <li key={ingredient.id}>
-                {ingredient.name}
-                :
-                {ingredient.quantity}
-                {' '}
-                {ingredient.unit}
-              </li>
+        {editMode ? (
+          <div>
+            {editedRecipe.recipe_ingredients_attributes.map((ingredient, index) => (
+              <div key={index}>
+                <label htmlFor={`ingredientName${index}`}>
+                  Name:
+                  <input
+                    id={`ingredientName${index}`}
+                    type="text"
+                    value={ingredient.name}
+                    onChange={(e) => handleIngredientChange(index, 'name', e.target.value)}
+                  />
+                </label>
+                <label htmlFor={`ingredientQuantity${index}`}>
+                  Quantity:
+                  <input
+                    id={`ingredientQuantity${index}`}
+                    type="text"
+                    value={ingredient.quantity}
+                    onChange={(e) => handleIngredientChange(index, 'quantity', e.target.value)}
+                  />
+                </label>
+                <label htmlFor={`ingredientUnit${index}`}>
+                  Unit:
+                  <input
+                    id={`ingredientUnit${index}`}
+                    type="text"
+                    value={ingredient.unit}
+                    onChange={(e) => handleIngredientChange(index, 'unit', e.target.value)}
+                  />
+                </label>
+              </div>
             ))}
-        </ul>
+            <button type="button" onClick={handleAddIngredient}>
+              Add Ingredient
+            </button>
+          </div>
+        ) : (
+          <ul>
+            {recipe.recipe_ingredients_attributes
+              && recipe.recipe_ingredients_attributes.map((ingredient) => (
+                <li key={ingredient.id}>
+                  {ingredient.name}
+                  {': '}
+                  {ingredient.quantity}
+                  {ingredient.unit}
+                </li>
+              ))}
+          </ul>
+        )}
       </div>
       <div className="card-body">
         <h5>Steps:</h5>
