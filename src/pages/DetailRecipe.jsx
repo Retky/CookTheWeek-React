@@ -182,7 +182,7 @@ const DetailRecipe = () => {
         {editMode ? (
           <div>
             {editedRecipe.recipe_ingredients_attributes.map((ingredient, index) => (
-              <div key={index}>
+              <div key={ingredient.id}>
                 <label htmlFor={`ingredientName${index}`}>
                   Name:
                   <input
