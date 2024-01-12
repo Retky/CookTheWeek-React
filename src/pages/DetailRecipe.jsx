@@ -34,7 +34,7 @@ const DetailRecipe = () => {
   }, [dispatch, id]);
 
   const handleEditMode = () => {
-    if (!editMode && editedRecipe.id !== recipe.id) {
+    if (!editMode) {
       updateEditedRecipe();
     }
     setEditMode(!editMode);
