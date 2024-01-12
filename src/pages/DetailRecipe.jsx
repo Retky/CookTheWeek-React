@@ -114,14 +114,26 @@ const DetailRecipe = () => {
       </div>
       <div className="card-body">
         {editMode ? (
-          <h1 className="my-4">
-            <input
-              className="fw-medium border"
-              type="text"
-              value={editedRecipe.name || recipe.name}
-              onChange={(e) => setEditedRecipe({ ...editedRecipe, name: e.target.value })}
-            />
-          </h1>
+          <div>
+            <h1 className="my-4">
+              <input
+                className="fw-medium border"
+                type="text"
+                value={editedRecipe.name || recipe.name}
+                onChange={(e) => setEditedRecipe({ ...editedRecipe, name: e.target.value })}
+              />
+            </h1>
+            <label className="form-check-label" htmlFor="public">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="public"
+                checked={editedRecipe.public}
+                onChange={(e) => setEditedRecipe({ ...editedRecipe, public: e.target.checked })}
+              />
+              Public
+            </label>
+          </div>
         ) : (
           <h1 className="my-4">{recipe.name}</h1>
         )}
