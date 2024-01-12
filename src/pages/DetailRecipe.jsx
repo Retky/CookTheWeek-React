@@ -36,7 +36,7 @@ const DetailRecipe = () => {
 
   return (
     <div className="header-space m-4 mb-5">
-      <div className="menu">
+      <div className="menu sticky-top">
         <button onClick={handleEditMode} type="button" className={`btn ${editMode ? 'btn-danger' : 'btn-primary'}`}>
           {editMode ? 'Cancel' : 'Edit'}
         </button>
