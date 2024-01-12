@@ -9,14 +9,46 @@ const DetailRecipe = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
-  const [editedRecipe, setEditedRecipe] = useState({});
+  const [editedRecipe, setEditedRecipe] = useState({
+    id: 0,
+    name: '',
+    description: '',
+    portions: 0,
+    difficulty: 1,
+    preparation_time: 0,
+    cooking_time: 0,
+    public: false,
+    tips: '',
+    image_url: '',
+    recipe_ingredients_attributes: [],
+    recipe_steps_attributes: [],
+  });
   const recipe = useSelector((store) => store.recipe);
+
+  const updateEditedRecipe = () => {
+    setEditedRecipe({
+      name: recipe.name,
+      description: recipe.description,
+      portions: recipe.portions,
+      difficulty: recipe.difficulty,
+      preparation_time: recipe.preparation_time,
+      cooking_time: recipe.cooking_time,
+      public: recipe.public,
+      tips: recipe.tips,
+      image_url: recipe.image_url,
+      recipe_ingredients_attributes: recipe.recipe_ingredients_attributes,
+      recipe_steps_attributes: recipe.recipe_steps_attributes,
+    });
+  };
 
   useEffect(() => {
     dispatch(fetchRecipe(id));
   }, [dispatch, id]);
 
   const handleEditMode = () => {
+    if (!editMode) {
+      updateEditedRecipe();
+    }
     setEditMode(!editMode);
   };
 
