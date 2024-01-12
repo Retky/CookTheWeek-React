@@ -62,6 +62,14 @@ const DetailRecipe = () => {
     }));
   };
 
+  const handleDeleteIngredient = (index) => {
+    setEditedRecipe((prevRecipe) => {
+      const newIngredients = [...prevRecipe.recipe_ingredients_attributes];
+      newIngredients.splice(index, 1);
+      return { ...prevRecipe, recipe_ingredients_attributes: newIngredients };
+    });
+  };
+
   return (
     <div className="header-space m-4 mb-5">
       <div className="menu sticky-top">
@@ -182,7 +190,7 @@ const DetailRecipe = () => {
         {editMode ? (
           <div>
             {editedRecipe.recipe_ingredients_attributes.map((ingredient, index) => (
-              <div key={ingredient.id}>
+              <div key={ingredient.id || index}>
                 <label htmlFor={`ingredientName${index}`}>
                   Name:
                   <input
@@ -210,6 +218,9 @@ const DetailRecipe = () => {
                     onChange={(e) => handleIngredientChange(index, 'unit', e.target.value)}
                   />
                 </label>
+                <button type="button" onClick={() => handleDeleteIngredient(index)}>
+                  Delete
+                </button>
               </div>
             ))}
             <button type="button" onClick={handleAddIngredient}>
@@ -219,14 +230,14 @@ const DetailRecipe = () => {
         ) : (
           <ul>
             {recipe.recipe_ingredients_attributes
-              && recipe.recipe_ingredients_attributes.map((ingredient) => (
-                <li key={ingredient.id}>
-                  {ingredient.name}
-                  {': '}
-                  {ingredient.quantity}
-                  {ingredient.unit}
-                </li>
-              ))}
+            && recipe.recipe_ingredients_attributes.map((ingredient) => (
+              <li key={ingredient.id}>
+                {ingredient.name}
+                {': '}
+                {ingredient.quantity}
+                {ingredient.unit}
+              </li>
+            ))}
           </ul>
         )}
       </div>
