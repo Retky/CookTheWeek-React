@@ -2,6 +2,7 @@ import {
   BrowserRouter as Router,
   Routes as Switch,
   Route,
+  Navigate,
 } from 'react-router-dom';
 
 import './styles/App.css';
@@ -17,7 +18,7 @@ const App = () => (
       <Route path="/" element={<HomePage />} />
       <Route path="/recipes" element={<UserRecipes />} />
       <Route path="/recipes/:id" element={<DetailRecipe />} />
-      <Route path="*" element={<h1>404 Not Found</h1>} />
+      <Route path="*" element={<Navigate to="/" />} />
     </Switch>
   </Router>
 );
