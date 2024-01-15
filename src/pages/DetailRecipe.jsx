@@ -20,8 +20,8 @@ const DetailRecipe = () => {
       portions: parseFloat(recipe.portions),
       difficulty: parseFloat(recipe.difficulty),
       preparation_time: parseFloat(recipe.preparation_time),
-      preparation_hours: Math.floor(recipe.preparation_time / 60),
-      preparation_minutes: Math.floor(recipe.preparation_time % 60),
+      preparation_hours: Math.floor(recipe.preparation_time / 60) || 0,
+      preparation_minutes: Math.floor(recipe.preparation_time % 60) || 0,
       cooking_time: parseFloat(recipe.cooking_time),
       cooking_hours: Math.floor(recipe.cooking_time / 60),
       cooking_minutes: Math.floor(recipe.cooking_time % 60),
@@ -55,14 +55,8 @@ const DetailRecipe = () => {
           + parseFloat(editedRecipe.cooking_minutes)) || 0,
     };
 
-    setEditedRecipe(savingRecipe);
-
-    delete savingRecipe.preparation_hours;
-    delete savingRecipe.preparation_minutes;
-    delete savingRecipe.cooking_hours;
-    delete savingRecipe.cooking_minutes;
-
     if (!_isEqual(savingRecipe, recipe)) {
+      setEditedRecipe(savingRecipe);
       dispatch(updateRecipe(savingRecipe));
     }
     setEditMode(false);
@@ -269,7 +263,7 @@ const DetailRecipe = () => {
                 <input
                   id="minutes"
                   type="number"
-                  value={Math.floor((editedRecipe.cooking_minutes))}
+                  value={Math.floor(editedRecipe.cooking_minutes)}
                   min={0}
                   max={59}
                   onChange={(e) => setEditedRecipe({
@@ -282,7 +276,7 @@ const DetailRecipe = () => {
           ) : (
             <p>
               Cooking Time:
-              {recipe.preparation_time && (
+              {recipe.cooking_time && (
                 `${Math.floor(recipe.cooking_time / 60)}h ${Math.floor(recipe.cooking_time % 60)}m`
               )}
             </p>
