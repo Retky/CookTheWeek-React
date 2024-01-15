@@ -24,6 +24,8 @@ const CreateRecipe = () => {
   });
 
   const handleSave = () => {
+    if (newRecipe.name === '') return;
+
     const savingRecipe = {
       ...newRecipe,
       preparation_time:
