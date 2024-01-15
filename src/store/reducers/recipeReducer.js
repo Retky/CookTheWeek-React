@@ -41,14 +41,14 @@ const mockRecipe = {
 
 const initialState = {};
 
-const FETCH_CREATE_RECIPE = 'FETCH_CREATE_RECIPE';
+const CREATE_RECIPE = 'CREATE_RECIPE';
 const FETCH_RECIPE = 'FETCH_RECIPE';
 const UPDATE_RECIPE = 'UPDATE_RECIPE';
 
-export const fetchCreateRecipe = (recipe) => {
+export const createRecipe = (recipe) => {
   console.log('creating recipe', recipe);
   return {
-    type: FETCH_CREATE_RECIPE,
+    type: CREATE_RECIPE,
     recipe,
   };
 };
@@ -71,7 +71,7 @@ export const updateRecipe = (recipe) => {
 
 const reducer = (state = initialState, action) => { // eslint-disable-line default-param-last
   switch (action.type) {
-    case FETCH_CREATE_RECIPE:
+    case CREATE_RECIPE:
       return action.recipe;
     case FETCH_RECIPE:
       return action.recipe;
