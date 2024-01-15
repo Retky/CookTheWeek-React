@@ -17,10 +17,14 @@ const DetailRecipe = () => {
       id: recipe.id,
       name: recipe.name,
       description: recipe.description,
-      portions: recipe.portions,
-      difficulty: recipe.difficulty,
-      preparation_time: recipe.preparation_time,
-      cooking_time: recipe.cooking_time,
+      portions: parseFloat(recipe.portions),
+      difficulty: parseFloat(recipe.difficulty),
+      preparation_time: parseFloat(recipe.preparation_time),
+      preparation_hours: Math.floor(recipe.preparation_time / 60),
+      preparation_minutes: Math.floor(recipe.preparation_time % 60),
+      cooking_time: parseFloat(recipe.cooking_time),
+      cooking_hours: Math.floor(recipe.cooking_time / 60),
+      cooking_minutes: Math.floor(recipe.cooking_time % 60),
       public: recipe.public,
       tips: recipe.tips,
       image_url: recipe.image_url,
@@ -40,9 +44,26 @@ const DetailRecipe = () => {
     setEditMode(!editMode);
   };
 
-  const handleSave = (editRecipe) => {
-    if (!_isEqual(editRecipe, recipe)) {
-      dispatch(updateRecipe(editRecipe));
+  const handleSave = () => {
+    const savingRecipe = {
+      ...editedRecipe,
+      preparation_time:
+        (parseFloat(editedRecipe.preparation_hours * 60)
+          + parseFloat(editedRecipe.preparation_minutes)) || 0,
+      cooking_time:
+        (parseFloat(editedRecipe.cooking_hours * 60)
+          + parseFloat(editedRecipe.cooking_minutes)) || 0,
+    };
+
+    setEditedRecipe(savingRecipe);
+
+    delete savingRecipe.preparation_hours;
+    delete savingRecipe.preparation_minutes;
+    delete savingRecipe.cooking_hours;
+    delete savingRecipe.cooking_minutes;
+
+    if (!_isEqual(savingRecipe, recipe)) {
+      dispatch(updateRecipe(savingRecipe));
     }
     setEditMode(false);
   };
@@ -100,7 +121,7 @@ const DetailRecipe = () => {
           {editMode ? 'Cancel' : 'Edit'}
         </button>
         {editMode && (
-          <button onClick={() => handleSave(editedRecipe)} type="button" className="btn btn-success">
+          <button onClick={() => handleSave()} type="button" className="btn btn-success">
             Save
           </button>
         )}
@@ -119,7 +140,7 @@ const DetailRecipe = () => {
               <input
                 className="fw-medium border"
                 type="text"
-                value={editedRecipe.name || recipe.name}
+                value={editedRecipe.name}
                 onChange={(e) => setEditedRecipe({ ...editedRecipe, name: e.target.value })}
               />
             </h1>
@@ -140,7 +161,7 @@ const DetailRecipe = () => {
         {editMode ? (
           <textarea
             className="form-control"
-            value={editedRecipe.description || recipe.description}
+            value={editedRecipe.description}
             onChange={(e) => setEditedRecipe({ ...editedRecipe, description: e.target.value })}
           />
         ) : (
@@ -153,7 +174,7 @@ const DetailRecipe = () => {
               <input
                 id="portions"
                 type="number"
-                value={editedRecipe.portions || recipe.portions}
+                value={editedRecipe.portions}
                 min={1}
                 onChange={(e) => setEditedRecipe({ ...editedRecipe, portions: e.target.value })}
               />
@@ -172,7 +193,7 @@ const DetailRecipe = () => {
               <input
                 id="difficulty"
                 type="number"
-                value={editedRecipe.difficulty || recipe.difficulty}
+                value={editedRecipe.difficulty}
                 min={1}
                 max={5}
                 onChange={(e) => setEditedRecipe({ ...editedRecipe, difficulty: e.target.value })}
@@ -188,25 +209,32 @@ const DetailRecipe = () => {
         <p>
           {editMode ? (
             <div>
+              {'Preparation Time '}
               <label htmlFor="hours">
-                Preparation Time (hours):
+                (hours):
                 <input
                   id="hours"
                   type="number"
-                  value={editedRecipe.hours || Math.floor(recipe.preparation_time)}
-                  min={1}
-                  onChange={(e) => setEditedRecipe({ ...editedRecipe, hours: e.target.value })}
+                  value={Math.floor(editedRecipe.preparation_hours)}
+                  min={0}
+                  onChange={(e) => setEditedRecipe({
+                    ...editedRecipe,
+                    preparation_hours: e.target.value,
+                  })}
                 />
               </label>
               <label htmlFor="minutes">
-                Preparation Time (minutes):
+                (minutes):
                 <input
                   id="minutes"
                   type="number"
-                  value={editedRecipe.minutes || Math.floor((recipe.preparation_time % 1) * 60)}
+                  value={Math.floor(editedRecipe.preparation_minutes)}
                   min={0}
                   max={59}
-                  onChange={(e) => setEditedRecipe({ ...editedRecipe, minutes: e.target.value })}
+                  onChange={(e) => setEditedRecipe({
+                    ...editedRecipe,
+                    preparation_minutes: e.target.value,
+                  })}
                 />
               </label>
             </div>
@@ -214,7 +242,48 @@ const DetailRecipe = () => {
             <p>
               Preparation Time:
               {recipe.preparation_time && (
-                `${Math.floor(recipe.preparation_time)}h ${Math.floor((recipe.preparation_time % 1) * 60)}m`
+                `${Math.floor(recipe.preparation_time / 60)}h ${Math.floor(recipe.preparation_time % 60)}m`
+              )}
+            </p>
+          )}
+        </p>
+        <p>
+          {editMode ? (
+            <div>
+              {'Cooking Time '}
+              <label htmlFor="hours">
+                (hours):
+                <input
+                  id="hours"
+                  type="number"
+                  value={Math.floor(editedRecipe.cooking_hours)}
+                  min={0}
+                  onChange={(e) => setEditedRecipe({
+                    ...editedRecipe,
+                    cooking_hours: e.target.value,
+                  })}
+                />
+              </label>
+              <label htmlFor="minutes">
+                (minutes):
+                <input
+                  id="minutes"
+                  type="number"
+                  value={Math.floor((editedRecipe.cooking_minutes))}
+                  min={0}
+                  max={59}
+                  onChange={(e) => setEditedRecipe({
+                    ...editedRecipe,
+                    cooking_minutes: e.target.value,
+                  })}
+                />
+              </label>
+            </div>
+          ) : (
+            <p>
+              Cooking Time:
+              {recipe.preparation_time && (
+                `${Math.floor(recipe.cooking_time / 60)}h ${Math.floor(recipe.cooking_time % 60)}m`
               )}
             </p>
           )}
@@ -316,7 +385,7 @@ const DetailRecipe = () => {
         {editMode ? (
           <textarea
             className="form-control"
-            value={editedRecipe.tips || recipe.tips}
+            value={editedRecipe.tips}
             onChange={(e) => setEditedRecipe({ ...editedRecipe, tips: e.target.value })}
           />
         ) : (
