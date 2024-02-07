@@ -46,14 +46,12 @@ export const loginRequest = (userData) => async (dispatch) => {
 const reducer = (state = initialState, action) => { // eslint-disable-line default-param-last
   switch (action.type) {
     case LOGIN_REQUEST:
-      console.log('LOGIN_REQUEST');
       return {
         ...state,
         loading: true,
         error: null,
       };
     case LOGIN_SUCCESS:
-      console.log('LOGIN_SUCCESS');
       localStorage.setItem('token', action.payload.token);
       localStorage.setItem('userId', action.payload.resource_owner.id);
       return {

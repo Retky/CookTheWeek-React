@@ -4,13 +4,13 @@ import { loginRequest } from '../store/reducers/loginReducer';
 const Login = () => {
   const dispatch = useDispatch();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const userData = {
       email: e.target.email.value,
       password: e.target.password.value,
     };
-    await dispatch(loginRequest(userData));
+    dispatch(loginRequest(userData));
   };
 
   return (
