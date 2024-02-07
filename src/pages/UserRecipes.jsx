@@ -22,6 +22,8 @@ const UserRecipes = () => {
     setSelectedRecipe(null);
   };
 
+  console.log(recipes);
+
   return (
     <div className="header-space container">
       <h1 className="text-center my-4">My Recipes</h1>

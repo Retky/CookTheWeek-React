@@ -49,7 +49,7 @@ const RecipeExpand = ({ recipe, handleRecipeClose }) => (
           <div className="card-body">
             <h5>Ingredients:</h5>
             <ul>
-              {recipe.ingredients.map((ingredient) => (
+              {recipe.recipe_ingredients.map((ingredient) => (
                 <li key={ingredient.id}>
                   {ingredient.name}
                   :
@@ -63,8 +63,8 @@ const RecipeExpand = ({ recipe, handleRecipeClose }) => (
           <div className="card-body">
             <h5>Steps:</h5>
             <ol>
-              {recipe.steps.map((step) => (
-                <li key={step.id}>{step.description}</li>
+              {recipe.recipe_steps.map((step) => (
+                <li key={step.id}>{step.instructions}</li>
               ))}
             </ol>
           </div>
@@ -86,12 +86,12 @@ RecipeExpand.propTypes = {
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     portions: PropTypes.number.isRequired,
-    difficulty: PropTypes.number.isRequired,
+    difficulty: PropTypes.number,
     preparation_time: PropTypes.number.isRequired,
     cooking_time: PropTypes.number.isRequired,
     tips: PropTypes.string.isRequired,
     image_url: PropTypes.string,
-    ingredients: PropTypes.arrayOf(
+    recipe_ingredients: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired,
@@ -99,10 +99,10 @@ RecipeExpand.propTypes = {
         unit: PropTypes.string.isRequired,
       }),
     ).isRequired,
-    steps: PropTypes.arrayOf(
+    recipe_steps: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number.isRequired,
-        description: PropTypes.string.isRequired,
+        instructions: PropTypes.string.isRequired,
       }),
     ).isRequired,
   }).isRequired,
