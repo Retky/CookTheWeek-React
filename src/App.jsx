@@ -11,6 +11,7 @@ import HomePage from './pages/HomePage';
 import UserRecipes from './pages/UserRecipes';
 import DetailRecipe from './pages/DetailRecipe';
 import CreateRecipe from './pages/CreateRecipe';
+import Login from './pages/Login';
 
 const App = () => (
   <Router>
@@ -21,7 +22,7 @@ const App = () => (
       <Route path="/recipes/:id" element={<DetailRecipe />} />
       <Route path="/recipes/new" element={<CreateRecipe />} />
       <Route path="/register" element={<h1>Register</h1>} />
-      <Route path="/login" element={<h1>Login</h1>} />
+      <Route path="/login" element={<Login />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Switch>
   </Router>
