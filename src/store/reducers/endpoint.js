@@ -1,2 +1,2 @@
-const BASE_URL = 'http://192.168.100.129/api/v1';
-export default BASE_URL;
+export const BASE_URL = 'http://192.168.100.129:3000';
+export const API_VERSION = '/api/v1';
