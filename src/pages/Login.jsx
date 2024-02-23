@@ -14,7 +14,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="header-space">
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">
